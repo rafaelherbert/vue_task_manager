@@ -38,15 +38,13 @@
     export default {
         data() {
             return {
-                newTaskObj: {message:'', active:false},
                 newTaskMessage:'',
                 tasks:[]
             }
         },
         methods:{
             newTask(newTaskMessage) {
-                var task = this.newTaskObj
-                task.message = newTaskMessage
+                var task = {message:newTaskMessage, active:false}
                 this.tasks.push(task)
                 this.newTaskMessage = ''
             },
