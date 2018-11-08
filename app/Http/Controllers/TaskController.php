@@ -14,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::paginate(10);
+        $tasks = Task::latest()->paginate(10);
         return $tasks;
     }
 
@@ -55,7 +55,11 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $task->body = $request->body;
+        if(isset($request->completed))
+            $task->completed = $request->completed;
+        if ($task->save()) return 'The task was successfully updated.';
+        else return 'There was an error.';
     }
 
     /**

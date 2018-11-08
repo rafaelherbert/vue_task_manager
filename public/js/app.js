@@ -47201,13 +47201,13 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(52)
+  __webpack_require__(40)
 }
 var normalizeComponent = __webpack_require__(45)
 /* script */
 var __vue_script__ = __webpack_require__(46)
 /* template */
-var __vue_template__ = __webpack_require__(54)
+var __vue_template__ = __webpack_require__(47)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47246,8 +47246,46 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 40 */,
-/* 41 */,
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(41);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(43)("839d37c8", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6339c8b0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./task-manager.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6339c8b0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./task-manager.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(42)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.spinner[data-v-6339c8b0] {\n  margin: 50px auto;\n  width: 40px;\n  height: 40px;\n  position: relative;\n}\n.cube1[data-v-6339c8b0], .cube2[data-v-6339c8b0] {\n  background-color: #333;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  -webkit-animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n  animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n}\n.cube2[data-v-6339c8b0] {\n  -webkit-animation-delay: -0.9s;\n  animation-delay: -0.9s;\n}\n@-webkit-keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    -webkit-transform: rotate(-360deg);\n}\n}\n@keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    transform: translateX(42px) rotate(-90deg) scale(0.5);\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    transform: translateX(42px) translateY(42px) rotate(-179deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);\n}\n50.1% {\n    transform: translateX(42px) translateY(42px) rotate(-180deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    transform: rotate(-360deg);\n    -webkit-transform: rotate(-360deg);\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
 /* 42 */
 /***/ (function(module, exports) {
 
@@ -47757,6 +47795,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47790,6 +47834,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             console.log(this.paginationNumber);
         },
+        updateTask: function updateTask(obj) {
+            console.log(obj.completed);
+            axios.patch('/api/tasks/' + obj.id, obj).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+            this.loadData();
+        },
         newTask: function newTask(newTaskMessage) {
             var _this2 = this;
 
@@ -47802,65 +47855,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             this.newTaskMessage = '';
             this.loadData();
+        },
+
+        range: function range(min, max) {
+            var array = [],
+                j = 0;
+            for (var i = min; i <= max; i++) {
+                array[j] = i;
+                j++;
+            }
+            return array;
         }
     },
     mounted: function mounted() {
         this.loadData();
+    },
+
+    computed: {
+        paginate_array: function paginate_array() {
+            // This function allows the pagination to be always on the center of the pagination interval.
+
+            var pi = 5; // This is the pagination interval.
+            var pi2 = pi - 1;
+            var half_pi = Math.floor(pi / 2);
+            var start2, end2;
+
+            if (this.tasks.current_page <= pi) {
+                start2 = this.tasks.current_page - half_pi > 0 ? this.tasks.current_page - half_pi : 1;
+                end2 = start2 + pi2;
+            } else {
+                start2 = this.tasks.current_page + half_pi >= this.tasks.last_page ? this.tasks.last_page - pi2 : this.tasks.current_page - half_pi;
+                end2 = this.tasks.current_page + half_pi >= this.tasks.last_page ? this.tasks.last_page : start2 + pi2;
+            }
+
+            return this.range(start2, end2);
+        }
     }
 });
 
 /***/ }),
-/* 47 */,
-/* 48 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(53);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(43)("839d37c8", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6339c8b0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./task-manager.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6339c8b0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./task-manager.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(42)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.spinner[data-v-6339c8b0] {\n  margin: 50px auto;\n  width: 40px;\n  height: 40px;\n  position: relative;\n}\n.cube1[data-v-6339c8b0], .cube2[data-v-6339c8b0] {\n  background-color: #333;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  -webkit-animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n  animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n}\n.cube2[data-v-6339c8b0] {\n  -webkit-animation-delay: -0.9s;\n  animation-delay: -0.9s;\n}\n@-webkit-keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    -webkit-transform: rotate(-360deg);\n}\n}\n@keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    transform: translateX(42px) rotate(-90deg) scale(0.5);\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    transform: translateX(42px) translateY(42px) rotate(-179deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);\n}\n50.1% {\n    transform: translateX(42px) translateY(42px) rotate(-180deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    transform: rotate(-360deg);\n    -webkit-transform: rotate(-360deg);\n}\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 54 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47871,9 +47905,84 @@ var render = function() {
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card card-default" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\r\n                    Task manager\r\n                ")
-          ]),
+          _c(
+            "div",
+            {
+              staticClass:
+                "card-header d-flex align-items-center justify-content-between"
+            },
+            [
+              _vm._v(
+                "\r\n                    Task manager\r\n                    "
+              ),
+              _c(
+                "nav",
+                { attrs: { "aria-label": "Page navigation example" } },
+                [
+                  _c(
+                    "ul",
+                    { staticClass: "pagination m-0" },
+                    [
+                      _c("li", { staticClass: "page-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            on: {
+                              click: function($event) {
+                                _vm.loadData(_vm.tasks.prev_page_url)
+                              }
+                            }
+                          },
+                          [_vm._v("Previous")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.paginate_array, function(i) {
+                        return _c(
+                          "li",
+                          {
+                            staticClass: "page-item",
+                            class: { active: i == _vm.tasks.current_page }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "page-link",
+                                on: {
+                                  click: function($event) {
+                                    _vm.loadData(_vm.tasks.path + "?page=" + i)
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(i))]
+                            )
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "page-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            on: {
+                              click: function($event) {
+                                _vm.loadData(_vm.tasks.next_page_url)
+                              }
+                            }
+                          },
+                          [_vm._v("Next")]
+                        )
+                      ])
+                    ],
+                    2
+                  )
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -47964,163 +48073,87 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.tasks.data, function(task) {
                 return !_vm.loading
-                  ? _c("div", [
-                      _c("div", { staticClass: "form-check" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: task.completed,
-                              expression: "task.completed"
-                            }
-                          ],
-                          staticClass: "form-check-input",
-                          attrs: {
-                            "true-value": "1",
-                            "false-value": "0",
-                            type: "checkbox",
-                            id: "defaultCheck1"
-                          },
-                          domProps: {
-                            value: task.completed,
-                            checked: Array.isArray(task.completed)
-                              ? _vm._i(task.completed, task.completed) > -1
-                              : _vm._q(task.completed, "1")
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a = task.completed,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? "1" : "0"
-                              if (Array.isArray($$a)) {
-                                var $$v = task.completed,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 &&
-                                    _vm.$set(
-                                      task,
-                                      "completed",
-                                      $$a.concat([$$v])
-                                    )
-                                } else {
-                                  $$i > -1 &&
-                                    _vm.$set(
-                                      task,
-                                      "completed",
-                                      $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1))
-                                    )
-                                }
-                              } else {
-                                _vm.$set(task, "completed", $$c)
+                  ? _c("ul", { staticClass: "list-group list-group-flush" }, [
+                      _c("li", { staticClass: "list-group-item" }, [
+                        _c("div", { staticClass: "form-check" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: task.completed,
+                                expression: "task.completed"
                               }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: {
+                              "true-value": "1",
+                              "false-value": "0",
+                              type: "checkbox",
+                              id: task.id
+                            },
+                            domProps: {
+                              value: task.completed,
+                              checked: Array.isArray(task.completed)
+                                ? _vm._i(task.completed, task.completed) > -1
+                                : _vm._q(task.completed, "1")
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$a = task.completed,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? "1" : "0"
+                                  if (Array.isArray($$a)) {
+                                    var $$v = task.completed,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          task,
+                                          "completed",
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          task,
+                                          "completed",
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(task, "completed", $$c)
+                                  }
+                                },
+                                function($event) {
+                                  _vm.updateTask(task)
+                                }
+                              ]
                             }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "form-check-label",
-                            attrs: { for: "defaultCheck1" }
-                          },
-                          [
-                            _vm._v(
-                              "\r\n                                " +
-                                _vm._s(task.body) +
-                                "\r\n                            "
-                            )
-                          ]
-                        )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: task.id }
+                            },
+                            [
+                              _vm._v(
+                                "\r\n                                    " +
+                                  _vm._s(task.body) +
+                                  "\r\n                                "
+                              )
+                            ]
+                          )
+                        ])
                       ])
                     ])
                   : _vm._e()
-              }),
-              _vm._v(" "),
-              _c(
-                "nav",
-                { attrs: { "aria-label": "Page navigation example" } },
-                [
-                  _c(
-                    "ul",
-                    { staticClass: "pagination" },
-                    [
-                      _c("li", { staticClass: "page-item" }, [
-                        _c(
-                          "a",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.tasks.current_page - 1 != 0,
-                                expression: "tasks.current_page - 1 != 0"
-                              }
-                            ],
-                            staticClass: "page-link",
-                            on: {
-                              click: function($event) {
-                                _vm.loadData(_vm.tasks.prev_page_url)
-                              }
-                            }
-                          },
-                          [_vm._v("Previous")]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(5, function(i) {
-                        return _c("li", { staticClass: "page-item" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "page-link",
-                              on: {
-                                click: function($event) {
-                                  _vm.loadData(
-                                    _vm.tasks.path +
-                                      "?page=" +
-                                      (_vm.tasks.current_page + i)
-                                  )
-                                }
-                              }
-                            },
-                            [_vm._v(_vm._s(_vm.tasks.current_page + i))]
-                          )
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "page-item" }, [
-                        _c(
-                          "a",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  _vm.tasks.current_page + 4 <
-                                  _vm.tasks.last_page,
-                                expression:
-                                  "(tasks.current_page + 4) < tasks.last_page"
-                              }
-                            ],
-                            staticClass: "page-link",
-                            on: {
-                              click: function($event) {
-                                _vm.loadData(_vm.tasks.next_page_url)
-                              }
-                            }
-                          },
-                          [_vm._v("Next")]
-                        )
-                      ])
-                    ],
-                    2
-                  )
-                ]
-              )
+              })
             ],
             2
           )
@@ -48138,6 +48171,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-6339c8b0", module.exports)
   }
 }
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

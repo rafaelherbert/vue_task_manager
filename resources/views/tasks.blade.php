@@ -12,6 +12,7 @@
         <div id="app">
             <task-manager class="mt-5"></task-manager>
         </div>
+        
         <script type="text/javascript" src="/js/app.js"></script>
     </body>
 </html>

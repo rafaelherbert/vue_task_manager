@@ -3,53 +3,59 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-default">
-                <div class="card-header">
+                <div class="card-header d-flex align-items-center justify-content-between">
                     Task manager
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination m-0">
+                            <li class="page-item">
+                                <a class="page-link" @click="loadData(tasks.prev_page_url)">Previous</a>
+                            </li>
+                            <li v-for="i in paginate_array" class="page-item" :class="{ 'active' : (i == tasks.current_page) }">
+                                <a class="page-link" @click="loadData(tasks.path + '?page=' + i)">{{ i }}</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" @click="loadData(tasks.next_page_url)">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
                 
                 <div class="card-body">
+                    
                     <div class="input-group mb-3">
                         <input v-model="newTaskMessage" @keyup.enter="newTask(newTaskMessage)" type="text" class="form-control" placeholder="Insert the message of your task." aria-label="Recipient's username">
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" type="button" @click="newTask(newTaskMessage)">Button</button>
                         </div>
                     </div>
+
                     <div class="alert alert-danger" role="alert" v-if="!loading && !tasks.data.length">
                         There is no active task
                     </div>
+
                     <div class="spinner d-flex align-items-center justify-content-center" v-if="loading">
                         <div class="cube1"></div>
                         <div class="cube2"></div>
                     </div>
-                    <div v-for="task in tasks.data" v-if="!loading">
-                        <div class="form-check">
-                            <input v-model="task.completed" class="form-check-input" :value="task.completed" true-value='1' false-value="0" type="checkbox" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
-                                {{task.body}}
-                            </label>
-                        </div>
-                    </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" @click="loadData(tasks.prev_page_url)" v-show='tasks.current_page - 1 != 0'>Previous</a>
-                            </li>
 
-                            <li v-for="i in 5" class="page-item">
-                                <a class="page-link" @click="loadData(tasks.path + '?page=' + (tasks.current_page + i))">{{tasks.current_page + i}}</a>
-                            </li>
-
-                            <li class="page-item">
-                                <a class="page-link" @click="loadData(tasks.next_page_url)" v-show='(tasks.current_page + 4) < tasks.last_page'>Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <ul class="list-group list-group-flush" v-for="task in tasks.data" v-if="!loading">
+                        <li class="list-group-item">
+                            <div class="form-check">
+                                <input v-model="task.completed" @change="updateTask(task)" class="form-check-input" :value="task.completed" true-value='1' false-value="0" type="checkbox" :id="task.id">
+                                <label class="form-check-label" :for="task.id">
+                                    {{task.body}}
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
 </template>
+
 <script>
     export default {
         data() {
@@ -76,6 +82,17 @@
                 })
                 console.log(this.paginationNumber)
             },
+            updateTask(obj){
+                console.log(obj.completed)
+                axios.patch('/api/tasks/' + obj.id, obj)
+                .then((response)=>{
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                this.loadData()
+            },
             newTask(newTaskMessage) {
                 var task = {body:newTaskMessage, completed:false}
                 axios.post('/api/tasks/', task)
@@ -88,10 +105,39 @@
                 })
                 this.newTaskMessage = ''
                 this.loadData()
+            },
+            range: function(min,max){
+                var array = [],
+                j = 0;
+                for(var i = min; i <= max; i++){
+                    array[j] = i;
+                    j++;
+                }
+                return array;
             }
         },
         mounted(){
             this.loadData()
+        },
+        computed: {
+            paginate_array: function() {
+                // This function allows the pagination to be always on the center of the pagination interval.
+
+                var pi = 5 // This is the pagination interval.
+                var pi2 = pi - 1;
+                var half_pi = Math.floor(pi/2);
+                var start2, end2
+
+                if (this.tasks.current_page <= pi) {
+                    start2 = this.tasks.current_page - half_pi > 0 ? this.tasks.current_page - half_pi : 1
+                    end2 = start2 + pi2
+                } else {
+                    start2 = this.tasks.current_page + half_pi >= this.tasks.last_page ? this.tasks.last_page - pi2 : this.tasks.current_page - half_pi
+                    end2 = this.tasks.current_page + half_pi >= this.tasks.last_page ? this.tasks.last_page : start2 + pi2
+                }
+
+                return this.range(start2, end2)
+            }
         }
     }
 </script>
