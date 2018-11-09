@@ -35,7 +35,7 @@
                         <div class="cube1"></div>
                         <div class="cube2"></div>
                     </div>
-                    <draggable v-model="tasks.data" class="list-group list-group-flush" v-if='!loading' :options="{group:'tasks'}">
+                    <draggable v-model="tasks.data" class="list-group list-group-flush" v-if='!loading' :options="{group:{name:'tasks', pull:'clone'}}">
                         <li class="list-group-item" v-for="task in tasks.data">
                             <div class="form-check">
                                 <input v-model="task.completed" @change="updateTask(task)" class="form-check-input" :value="task.completed" true-value='1' false-value="0" type="checkbox" :id="task.id">
@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="col-md-2">
-            <draggable v-model="trash" class="alert alert-danger" :options="{group:'tasks'}">
-                Trash
-                <div v-for="t in trash">{{t.id}}</div>
+            <draggable class="trash m-0 p-0" v-model="trash" id="trash" :options="trash_options" @add="deleteTask($event)">
+                <span></span>
+                <i></i>
             </draggable>
         </div>
     </div>
@@ -72,11 +72,27 @@
                 loading:true,
                 newTaskMessage:'',
                 tasks:'',
-                trash:[]
+                trash:[],
+                trash_options:{
+                    group: "tasks"  // or { name: "...", pull: [true, false, clone], put: [true, false, array] }
+                }
             }
         },
         methods:{
-            log(input){console.log(input)},
+            deleteTask(event){
+                var task = this.trash.pop(event.new_index)
+                axios.delete('/api/tasks/' + task.id)
+                .then((response)=>{
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                this.loadData()
+            },
+            log(input){
+                console.log(input)
+            },
             loadingStart(){this.loading = true},
             loadingStop(){this.loading = false},
             loadData(url = '/api/tasks'){
@@ -157,6 +173,11 @@
 </script>
 
 <style lang='scss' scoped>
+
+#trash li{
+    display:none;
+}
+
 .spinner {
   margin: 50px auto;
   width: 40px;
@@ -204,6 +225,98 @@
   } 100% { 
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
+  }
+}
+
+.trash {
+    background:#ff6873;
+    transform: scale(0.5);
+    width: 63px;
+    height: 80px;
+    display: inline-block;
+    margin:0 auto;
+    
+    position: relative;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.trash span {
+    position: absolute;
+    height: 12px;
+    background: #ff6873;
+    top: -19px;
+    left: -10px;
+    right: -10px;
+    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transform: rotate(0deg);
+    transition: transform 250ms;
+    transform-origin: 19% 100%;
+}
+.trash span:after {
+    content: '';
+    position: absolute;
+    width: 27px;
+    height: 7px;
+    background: #ff6873;
+    top: -10px;
+    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transform: rotate(0deg);
+    transition: transform 250ms;
+    transform-origin: 19% 100%;
+    left: 27px;
+}
+
+
+.trash i {
+    position:relative;
+    width: 5px;
+    height:50px;
+    background:#fff;
+    display:block;
+    margin:14px auto;
+    border-radius: 5px;
+}
+.trash i:after {
+    content: '';
+    width: 5px;
+    height: 50px;
+    background: #fff;
+    position: absolute;
+    left: -18px;
+    border-radius: 5px;
+}
+.trash i:before {
+    content: '';
+    width: 5px;
+    height: 50px;
+    background: #fff;
+    position: absolute;
+    right: -18px;
+    border-radius: 5px;
+}
+
+.trash:hover span {
+    transform: rotate(-45deg);
+    transition: transform 250ms;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

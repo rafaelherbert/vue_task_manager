@@ -70,6 +70,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        if ($task->delete()){
+            return "Task deleted";
+        } else {
+            return "Something went wrong";
+        }
     }
 }

@@ -48856,7 +48856,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n.spinner[data-v-6339c8b0] {\n  margin: 50px auto;\n  width: 40px;\n  height: 40px;\n  position: relative;\n}\n.cube1[data-v-6339c8b0], .cube2[data-v-6339c8b0] {\n  background-color: #333;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  -webkit-animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n  animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n}\n.cube2[data-v-6339c8b0] {\n  -webkit-animation-delay: -0.9s;\n  animation-delay: -0.9s;\n}\n@-webkit-keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    -webkit-transform: rotate(-360deg);\n}\n}\n@keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    transform: translateX(42px) rotate(-90deg) scale(0.5);\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    transform: translateX(42px) translateY(42px) rotate(-179deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);\n}\n50.1% {\n    transform: translateX(42px) translateY(42px) rotate(-180deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    transform: rotate(-360deg);\n    -webkit-transform: rotate(-360deg);\n}\n}\n", ""]);
+exports.push([module.i, "\n#trash li[data-v-6339c8b0] {\n  display: none;\n}\n.spinner[data-v-6339c8b0] {\n  margin: 50px auto;\n  width: 40px;\n  height: 40px;\n  position: relative;\n}\n.cube1[data-v-6339c8b0], .cube2[data-v-6339c8b0] {\n  background-color: #333;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  -webkit-animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n  animation: sk-cubemove-data-v-6339c8b0 1.8s infinite ease-in-out;\n}\n.cube2[data-v-6339c8b0] {\n  -webkit-animation-delay: -0.9s;\n  animation-delay: -0.9s;\n}\n@-webkit-keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    -webkit-transform: rotate(-360deg);\n}\n}\n@keyframes sk-cubemove-data-v-6339c8b0 {\n25% {\n    transform: translateX(42px) rotate(-90deg) scale(0.5);\n    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);\n}\n50% {\n    transform: translateX(42px) translateY(42px) rotate(-179deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);\n}\n50.1% {\n    transform: translateX(42px) translateY(42px) rotate(-180deg);\n    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);\n}\n75% {\n    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);\n}\n100% {\n    transform: rotate(-360deg);\n    -webkit-transform: rotate(-360deg);\n}\n}\n.trash[data-v-6339c8b0] {\n  background: #ff6873;\n  -webkit-transform: scale(0.5);\n          transform: scale(0.5);\n  width: 63px;\n  height: 80px;\n  display: inline-block;\n  margin: 0 auto;\n  position: relative;\n  -webkit-border-bottom-right-radius: 6px;\n  -webkit-border-bottom-left-radius: 6px;\n  -moz-border-radius-bottomright: 6px;\n  -moz-border-radius-bottomleft: 6px;\n  border-bottom-right-radius: 6px;\n  border-bottom-left-radius: 6px;\n}\n.trash span[data-v-6339c8b0] {\n  position: absolute;\n  height: 12px;\n  background: #ff6873;\n  top: -19px;\n  left: -10px;\n  right: -10px;\n  border-top-left-radius: 10px;\n  border-top-right-radius: 10px;\n  -webkit-transform: rotate(0deg);\n          transform: rotate(0deg);\n  -webkit-transition: -webkit-transform 250ms;\n  transition: -webkit-transform 250ms;\n  transition: transform 250ms;\n  transition: transform 250ms, -webkit-transform 250ms;\n  -webkit-transform-origin: 19% 100%;\n          transform-origin: 19% 100%;\n}\n.trash span[data-v-6339c8b0]:after {\n  content: '';\n  position: absolute;\n  width: 27px;\n  height: 7px;\n  background: #ff6873;\n  top: -10px;\n  border-top-left-radius: 10px;\n  border-top-right-radius: 10px;\n  -webkit-transform: rotate(0deg);\n          transform: rotate(0deg);\n  -webkit-transition: -webkit-transform 250ms;\n  transition: -webkit-transform 250ms;\n  transition: transform 250ms;\n  transition: transform 250ms, -webkit-transform 250ms;\n  -webkit-transform-origin: 19% 100%;\n          transform-origin: 19% 100%;\n  left: 27px;\n}\n.trash i[data-v-6339c8b0] {\n  position: relative;\n  width: 5px;\n  height: 50px;\n  background: #fff;\n  display: block;\n  margin: 14px auto;\n  border-radius: 5px;\n}\n.trash i[data-v-6339c8b0]:after {\n  content: '';\n  width: 5px;\n  height: 50px;\n  background: #fff;\n  position: absolute;\n  left: -18px;\n  border-radius: 5px;\n}\n.trash i[data-v-6339c8b0]:before {\n  content: '';\n  width: 5px;\n  height: 50px;\n  background: #fff;\n  position: absolute;\n  right: -18px;\n  border-radius: 5px;\n}\n.trash:hover span[data-v-6339c8b0] {\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n  -webkit-transition: -webkit-transform 250ms;\n  transition: -webkit-transform 250ms;\n  transition: transform 250ms;\n  transition: transform 250ms, -webkit-transform 250ms;\n}\n@-webkit-keyframes bounce-in-data-v-6339c8b0 {\n0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n}\n50% {\n    -webkit-transform: scale(1.5);\n            transform: scale(1.5);\n}\n100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n}\n}\n@keyframes bounce-in-data-v-6339c8b0 {\n0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n}\n50% {\n    -webkit-transform: scale(1.5);\n            transform: scale(1.5);\n}\n100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n}\n}\n", ""]);
 
 // exports
 
@@ -49395,11 +49395,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: true,
             newTaskMessage: '',
             tasks: '',
-            trash: []
+            trash: [],
+            trash_options: {
+                group: "tasks" // or { name: "...", pull: [true, false, clone], put: [true, false, array] }
+            }
         };
     },
 
     methods: {
+        deleteTask: function deleteTask(event) {
+            var task = this.trash.pop(event.new_index);
+            axios.delete('/api/tasks/' + task.id).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+            this.loadData();
+        },
         log: function log(input) {
             console.log(input);
         },
@@ -51633,7 +51645,9 @@ var render = function() {
                     "draggable",
                     {
                       staticClass: "list-group list-group-flush",
-                      attrs: { options: { group: "tasks" } },
+                      attrs: {
+                        options: { group: { name: "tasks", pull: "clone" } }
+                      },
                       model: {
                         value: _vm.tasks.data,
                         callback: function($$v) {
@@ -51736,8 +51750,13 @@ var render = function() {
           _c(
             "draggable",
             {
-              staticClass: "alert alert-danger",
-              attrs: { options: { group: "tasks" } },
+              staticClass: "trash m-0 p-0",
+              attrs: { id: "trash", options: _vm.trash_options },
+              on: {
+                add: function($event) {
+                  _vm.deleteTask($event)
+                }
+              },
               model: {
                 value: _vm.trash,
                 callback: function($$v) {
@@ -51746,13 +51765,7 @@ var render = function() {
                 expression: "trash"
               }
             },
-            [
-              _vm._v("\r\n                Trash\r\n                "),
-              _vm._l(_vm.trash, function(t) {
-                return _c("div", [_vm._v(_vm._s(t.id))])
-              })
-            ],
-            2
+            [_c("span"), _vm._v(" "), _c("i")]
           )
         ],
         1
