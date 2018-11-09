@@ -28,18 +28,15 @@
                             <button class="btn btn-outline-success" type="button" @click="newTask(newTaskMessage)">Button</button>
                         </div>
                     </div>
-
                     <div class="alert alert-danger" role="alert" v-if="!loading && !tasks.data.length">
                         There is no active task
                     </div>
-
                     <div class="spinner d-flex align-items-center justify-content-center" v-if="loading">
                         <div class="cube1"></div>
                         <div class="cube2"></div>
                     </div>
-
-                    <ul class="list-group list-group-flush" v-for="task in tasks.data" v-if="!loading">
-                        <li class="list-group-item">
+                    <ul id="tasks" class="list-group list-group-flush">
+                        <li class="list-group-item" v-for="task in tasks.data" v-if='!loading'>
                             <div class="form-check">
                                 <input v-model="task.completed" @change="updateTask(task)" class="form-check-input" :value="task.completed" true-value='1' false-value="0" type="checkbox" :id="task.id">
                                 <label class="form-check-label" :for="task.id">
@@ -118,6 +115,13 @@
         },
         mounted(){
             this.loadData()
+            /* 
+            Jquery cannot select elements that use vue directives inside it, stick it in your mind.
+            Keeping that on mind, you will need to use another library to do the drag and drop job, but remember
+            it cant rely on jquery, because jquery and vue does NOT WORK PROPERLY TOGHETER, you cant select an element with jquery
+            if it uses ANY VUE DIRECTIVE!!! IT works now, but need to be changed.
+            */
+            $('#tasks').sortable()
         },
         computed: {
             paginate_array: function() {
@@ -128,7 +132,10 @@
                 var half_pi = Math.floor(pi/2);
                 var start2, end2
 
-                if (this.tasks.current_page <= pi) {
+                if (this.tasks.last_page < pi2){
+                    start2 = 1
+                    end2 = this.tasks.last_page
+                } else if (this.tasks.current_page < pi2) {
                     start2 = this.tasks.current_page - half_pi > 0 ? this.tasks.current_page - half_pi : 1
                     end2 = start2 + pi2
                 } else {
