@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card card-default">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     Task manager
@@ -35,8 +35,8 @@
                         <div class="cube1"></div>
                         <div class="cube2"></div>
                     </div>
-                    <ul id="tasks" class="list-group list-group-flush">
-                        <li class="list-group-item" v-for="task in tasks.data" v-if='!loading'>
+                    <draggable v-model="tasks.data" class="list-group list-group-flush" v-if='!loading' :options="{group:'tasks'}">
+                        <li class="list-group-item" v-for="task in tasks.data">
                             <div class="form-check">
                                 <input v-model="task.completed" @change="updateTask(task)" class="form-check-input" :value="task.completed" true-value='1' false-value="0" type="checkbox" :id="task.id">
                                 <label class="form-check-label" :for="task.id">
@@ -44,25 +44,39 @@
                                 </label>
                             </div>
                         </li>
-                    </ul>
+                    </draggable>
                     
                 </div>
             </div>
+        </div>
+        <div class="col-md-2">
+            <draggable v-model="trash" class="alert alert-danger" :options="{group:'tasks'}">
+                Trash
+                <div v-for="t in trash">{{t.id}}</div>
+            </draggable>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+    // https://github.com/SortableJS/Vue.Draggable
+    import draggable from 'vuedraggable'
+        
     export default {
+        components: {
+            draggable,
+        },
         data() {
             return {
                 loading:true,
                 newTaskMessage:'',
                 tasks:'',
+                trash:[]
             }
         },
         methods:{
+            log(input){console.log(input)},
             loadingStart(){this.loading = true},
             loadingStop(){this.loading = false},
             loadData(url = '/api/tasks'){
@@ -115,13 +129,6 @@
         },
         mounted(){
             this.loadData()
-            /* 
-            Jquery cannot select elements that use vue directives inside it, stick it in your mind.
-            Keeping that on mind, you will need to use another library to do the drag and drop job, but remember
-            it cant rely on jquery, because jquery and vue does NOT WORK PROPERLY TOGHETER, you cant select an element with jquery
-            if it uses ANY VUE DIRECTIVE!!! IT works now, but need to be changed.
-            */
-            $('#tasks').sortable()
         },
         computed: {
             paginate_array: function() {
